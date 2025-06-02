@@ -24,38 +24,62 @@
       )
     }
 
-    function ChatMessege (props) {
-      const messege = props.messege;
-      const sender = props.sender;
-
-      if(sender === 'robot') {
-        return (
-          <div>
-          <img src="robot.png" width="30" alt=""/>
-          {messege}
-          </div>
-        )
-      }
-
+    function ChatMessege ({messege, sender}) {
       return (
         <div>
+          {sender === 'robot' && <img src="robot.png" width="30"/>}
           {messege}
-          <img src="user.png" width="30" alt=""/>
+          {sender === 'user' && <img src="user.png" width="30"/>}
         </div>
       )
     }
 
-    const app = (
-      <>
-        <ChatInput />
-        <ChatMessege messege="Hello, How are you?" sender="user" />
-        <ChatMessege messege="fine, What about you?" sender="robot" />
-        <ChatMessege messege="Good!, Can i ask you Something" sender="user" />
-        <ChatMessege messege="Sure, Whats the matter?" sender="robot" />
-      </>
-    )
+    function ChatMesseges () {
+
+      const chatMesseges = [
+        {
+          messege: 'Hello, How are you?',
+          sender: 'user',
+          keyId: 'id1'
+        },
+        {
+          messege: 'fine, What about you?',
+          sender: 'robot',
+          keyId: 'id2'
+        },
+        {
+          messege: 'Good!, Can i ask you Something',
+          sender: 'user',
+          keyId: 'id3' 
+        },
+        {
+          messege: 'Sure, Whats the matter?',
+          sender: 'robot',
+          keyId: 'id4' 
+        }
+      ]
+
+      return chatMesseges.map(chatMessege => {
+        return (
+          <ChatMessege messege={chatMessege.messege}  sender={chatMessege.sender}
+            key={chatMessege.keyId}/>
+        )
+      })
+
+    }
+
+    function App (){
+      return (
+        <>
+          <ChatInput/>
+          <ChatMesseges/>
+          
+        </>
+      )
+    }
+
     const root = ReactDOM.createRoot(document.querySelector('.js-container'));
-    root.render(app);
+    root.render(<App/>);
   </script>
 </body>
 
