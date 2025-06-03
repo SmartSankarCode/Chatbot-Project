@@ -10,16 +10,79 @@
 
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+  <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
+
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-
   <script type="text/babel">
 
-    function ChatInput() {
+    function ChatInput({chatMesseges, setChatMesseges}) {
+
+      const [inputText, setInputText] = React.useState('');
+      const [isLoading, setIsLoading] = React.useState(false);
+
+      function saveInputText (event) {
+        setInputText(event.target.value);
+      }
+
+      async function sendMessege() {
+
+        if(isLoading || inputText == ''){
+          return;
+        }
+
+        setIsLoading(true);
+
+        setInputText('');
+
+        const newChatMesseges = [
+          ...chatMesseges,
+          {
+            messege: inputText,
+            sender: 'user',
+            id: crypto.randomUUID()
+          }
+        ]
+
+        // setChatMesseges(newChatMesseges);
+        setChatMesseges([
+          ...newChatMesseges,
+          {
+            messege: 'Loading...',
+            sender: 'robot',
+            id: crypto.randomUUID()
+          }
+        ]);
+
+        const response = await Chatbot.getResponseAsync(inputText);
+        // console.log(response);
+        setChatMesseges([
+          ...newChatMesseges,
+          {
+            messege: response,
+            sender: 'robot',
+            id: crypto.randomUUID()
+          }
+        ]);
+
+        setIsLoading(false);
+
+      }
+
+      function handleKeyDown (event) {
+          if(event.key === 'Enter'){
+            sendMessege();
+          }else if(event.key === 'Escape'){
+            setInputText('');
+          }
+        }
       return (
         <>
-          <input placeholder="Send a messege to chatbot" size="30" />
-          <button>Send</button>
+          <input placeholder="Send a messege to chatbot" size="30"
+            onChange={saveInputText} onKeyDown={handleKeyDown} 
+            value={inputText}  />
+          <button onClick={sendMessege} >Send</button>
         </>
       )
     }
@@ -34,45 +97,52 @@
       )
     }
 
-    function ChatMesseges () {
-
-      const chatMesseges = [
-        {
-          messege: 'Hello, How are you?',
-          sender: 'user',
-          keyId: 'id1'
-        },
-        {
-          messege: 'fine, What about you?',
-          sender: 'robot',
-          keyId: 'id2'
-        },
-        {
-          messege: 'Good!, Can i ask you Something',
-          sender: 'user',
-          keyId: 'id3' 
-        },
-        {
-          messege: 'Sure, Whats the matter?',
-          sender: 'robot',
-          keyId: 'id4' 
-        }
-      ]
-
-      return chatMesseges.map(chatMessege => {
-        return (
-          <ChatMessege messege={chatMessege.messege}  sender={chatMessege.sender}
-            key={chatMessege.keyId}/>
-        )
-      })
+    function ChatMesseges ({chatMesseges}) {
+      return (
+        <>
+          {chatMesseges.map(chatMessege => {
+            return (
+              <ChatMessege messege={chatMessege.messege}  sender={chatMessege.sender}
+                key={chatMessege.id}/>
+            )
+          })}
+        </>
+      )
 
     }
 
     function App (){
+
+      const [chatMesseges, setChatMesseges] = React.useState([
+        {
+          messege: 'Hello, How are you?',
+          sender: 'user',
+          id: 'id1'
+        },
+        {
+          messege: 'fine, What about you?',
+          sender: 'robot',
+          id: 'id2'
+        },
+        {
+          messege: 'Good!, Can i ask you Something',
+          sender: 'user',
+          id: 'id3' 
+        },
+        {
+          messege: 'Sure, Whats the matter?',
+          sender: 'robot',
+          id: 'id4' 
+        }
+      ])
+      
+      // const chatMesseges = array[0];
+      // const setChatMesseges = array[1];
+      // const [chatMesseges, setChatMesseges] = array
       return (
         <>
-          <ChatInput/>
-          <ChatMesseges/>
+          <ChatInput chatMesseges={chatMesseges} setChatMesseges={setChatMesseges}/>
+          <ChatMesseges chatMesseges={chatMesseges} />
           
         </>
       )
