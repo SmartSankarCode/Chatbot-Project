@@ -1,114 +1,15 @@
-<!DOCTYPE html>
-<html>
+import { useState, useRef, useEffect } from 'react'
+import { Chatbot} from 'supersimpledev'
+import LoadingSpinner from './assets/loading-spinner.gif'
+import RobotImage from './assets/robot.png'
+import UserImage from './assets/user.png'
 
-<head>
-  <title>Chatbot</title>
-  <style>
-    body{
-      font-family: arial;
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
-    .send-button{
-      background-color: rgb(64, 144, 243);
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .input-text {
-      padding: 10px 15px;
-      border-radius: 5px;
-      border-width: 1px;
-      font-size: 15px;
-      flex-grow: 1;
-    }
-    .input-block {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 30px;
-      align-content: start;
-    }
-    .app-container {
-      display: flex;
-      flex-direction: column;
-      max-width: 600px;
-      margin: 0px auto;
-      height: 100vh;
-      position: relative;
-    }
-    .user-block {
-      display: flex;
-      justify-content: end;
-      align-items: start;
-      gap: 5px;
-      margin-top: 10px;
-    }
-    .robot-block {
-      display: flex;
-      justify-content: start;
-      align-items: start;
-      gap: 5px;
-      margin-top: 10px;
-    }
-    .user-chat-text{
-      background-color: rgb(238, 238, 238);
-      padding: 10px 10px;
-      border-radius: 5px;
-      max-width: 300px;
-      overflow-wrap: break-word;
-    }
-    .robot-chat-text {
-      background-color: rgb(238, 238, 238);
-      padding: 10px 10px;
-      border-radius: 5px;
-      max-width: 300px;
-      overflow-wrap: break-word;
-    }
-    .chat-icons {
-      width:35px
-    }
-    .chat-messeges-container {
-      flex-grow: 1;
-      overflow-y: scroll;  
-      scrollbar-width: none;
-      border: 1px solid rgb(238, 238, 238);
-      margin-top: 10px;
-      border-radius: 5px;
-    }
-    .welcome-message {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      bottom: 80px;
-      /* background-color: rgb(238, 238, 238);
-      padding: 10px 10px;
-      border-radius: 10px; */
-    }
-  </style>
-</head>
+import './App.css'
 
-<body>
-  <div class="js-container"></div>
+function ChatInput({chatMesseges, setChatMesseges}) {
 
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-
-  <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
-
-
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel">
-
-    function ChatInput({chatMesseges, setChatMesseges}) {
-
-      const [inputText, setInputText] = React.useState('');
-      const [isLoading, setIsLoading] = React.useState(false);
+      const [inputText, setInputText] = useState('');
+      const [isLoading, setIsLoading] = useState(false);
 
       function saveInputText (event) {
         setInputText(event.target.value);
@@ -137,7 +38,7 @@
         setChatMesseges([
           ...newChatMesseges,
           {
-            messege: <img src="loading-spinner.gif" height="20px"/>,//'Loading...',
+            messege: <img src={LoadingSpinner} height="20px"/>,//'Loading...',
             sender: 'robot',
             id: crypto.randomUUID()
           }
@@ -178,12 +79,12 @@
     function ChatMessege ({messege, sender}) {
       return (
         <div className={sender==='user'?'user-block':'robot-block'}>
-          {sender === 'robot' && <img src="robot.png" className="chat-icons"/>}
+          {sender === 'robot' && <img src={RobotImage} className="chat-icons"/>}
           <div className={sender==='user'? 'user-chat-text'
            :'robot-chat-text'}>
             {messege }
           </div>
-          {sender === 'user' && <img src="user.png" className="chat-icons"/>}
+          {sender === 'user' && <img src={UserImage} className="chat-icons"/>}
         </div>
       )
     }
@@ -215,9 +116,9 @@
     }
 
     function useAutoScroll(dependencies) {
-      const containerRef = React.useRef(null);
+      const containerRef = useRef(null);
 
-      React.useEffect(() => {
+      useEffect(() => {
         const containerElem = containerRef.current;
         if(containerElem) {
           containerElem.scrollTop = containerElem.scrollHeight;
@@ -227,9 +128,9 @@
       return containerRef;
     }
 
-    function App (){
+function App (){
 
-      const [chatMesseges, setChatMesseges] = React.useState([ ]);
+      const [chatMesseges, setChatMesseges] = useState([ ]);
 
       // const chatMesseges = array[0];
       // const setChatMesseges = array[1];
@@ -250,9 +151,4 @@
       )
     }
 
-    const root = ReactDOM.createRoot(document.querySelector('.js-container'));
-    root.render(<App/>);
-  </script>
-</body>
-
-</html>
+export default App
