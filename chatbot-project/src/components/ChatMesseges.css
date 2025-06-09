@@ -1,0 +1,8 @@
+.chat-messeges-container {
+  flex-grow: 1;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  border: 1px solid rgb(238, 238, 238);
+  margin-top: 10px;
+  border-radius: 5px;
+}

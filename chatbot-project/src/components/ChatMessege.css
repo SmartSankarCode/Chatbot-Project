@@ -1,0 +1,35 @@
+.user-block {
+  display: flex;
+  justify-content: end;
+  align-items: start;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.robot-block {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.user-chat-text {
+  background-color: rgb(238, 238, 238);
+  padding: 10px 10px;
+  border-radius: 5px;
+  max-width: 300px;
+  overflow-wrap: break-word;
+}
+
+.robot-chat-text {
+  background-color: rgb(238, 238, 238);
+  padding: 10px 10px;
+  border-radius: 5px;
+  max-width: 300px;
+  overflow-wrap: break-word;
+}
+
+.chat-icons {
+  width: 35px
+}

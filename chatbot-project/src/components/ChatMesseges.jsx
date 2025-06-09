@@ -1,5 +1,6 @@
 import { ChatMessege } from "./ChatMessege";
 import useAutoScroll from "./useAutoScroll";
+import './ChatMesseges.css';
 
 export function ChatMesseges({ chatMesseges }) {
   /*
