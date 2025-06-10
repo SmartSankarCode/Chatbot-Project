@@ -20,7 +20,7 @@ export function ChatMesseges({ chatMesseges }) {
       {chatMesseges.map(chatMessege => {
         return (
           <ChatMessege messege={chatMessege.messege} sender={chatMessege.sender}
-            key={chatMessege.id} />
+           time={chatMessege.time} key={chatMessege.id} />
         )
       })}
     </div>

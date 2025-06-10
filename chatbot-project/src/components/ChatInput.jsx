@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import dayjs from 'dayjs';
 import { Chatbot } from 'supersimpledev'
 import LoadingSpinner from '../assets/loading-spinner.gif'
 import './ChatInput.css';
@@ -28,7 +29,8 @@ export function ChatInput({ chatMesseges, setChatMesseges }) {
       {
         messege: inputText,
         sender: 'user',
-        id: crypto.randomUUID()
+        id: crypto.randomUUID(),
+        time: dayjs().valueOf()
       }
     ]
 
@@ -38,7 +40,8 @@ export function ChatInput({ chatMesseges, setChatMesseges }) {
       {
         messege: <img src={LoadingSpinner} height="20px" />,//'Loading...',
         sender: 'robot',
-        id: crypto.randomUUID()
+        id: crypto.randomUUID(),
+        time: dayjs().valueOf()
       }
     ]);
 
@@ -49,7 +52,8 @@ export function ChatInput({ chatMesseges, setChatMesseges }) {
       {
         messege: response,
         sender: 'robot',
-        id: crypto.randomUUID()
+        id: crypto.randomUUID(),
+        time: dayjs().valueOf()
       }
     ]);
 
@@ -64,12 +68,18 @@ export function ChatInput({ chatMesseges, setChatMesseges }) {
       setInputText('');
     }
   }
+
+  function clearMesseges() {
+    setChatMesseges([]);
+  }
+
   return (
     <div className="input-block">
       <input placeholder="Send a messege to chatbot" size="30"
         onChange={saveInputText} onKeyDown={handleKeyDown}
         value={inputText} className="input-text" />
       <button onClick={sendMessege} className="send-button" >Send</button>
+      <button onClick={clearMesseges} className="clear-button" >Clear</button>
     </div>
   )
 }

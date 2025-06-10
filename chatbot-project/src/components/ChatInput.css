@@ -22,3 +22,11 @@
   margin-bottom: 30px;
   align-content: start;
 }
+
+.clear-button {
+  background-color: rgb(230, 230, 230);
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 10px;
+}

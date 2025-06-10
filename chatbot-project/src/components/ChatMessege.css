@@ -33,3 +33,17 @@
 .chat-icons {
   width: 35px
 }
+
+.user-message-time {
+  font-size: 10px;
+  color: rgb(125, 125, 125);
+  margin-top: 5px;
+  text-align: end;
+}
+
+.robot-message-time {
+  font-size: 10px;
+  color: rgb(125, 125, 125);
+  margin-top: 5px;
+  text-align: start;
+}
